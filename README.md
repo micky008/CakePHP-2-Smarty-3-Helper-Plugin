@@ -102,7 +102,7 @@ When you visit `/smarty`, you should see `Woo!, it works!`
 
 ---
 
-#### Further Examples
+#### More Examples
 
 You can access all loaded CakePHP helpers in template files like so:
 

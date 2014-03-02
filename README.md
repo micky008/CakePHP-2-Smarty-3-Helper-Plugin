@@ -8,9 +8,8 @@ I have tested this with CakePHP 2.4 and above, but should work with little modif
 ## Installation
 
 #### Smarty 3
-First we need to install Smarty 3, you can do this using composer.
-
-Add the following to your composer.json
+First install Smarty 3, you can do this using composer.
+Add the following to your `composer.json`
 
 ```json
 {
@@ -37,14 +36,14 @@ Next, we have to install the CakePHP View Helper.
 
     git clone git@github.com:justanil/test-cakephp.git SmartyView
 
-Tell CakePHP to load our plugin, add the following into `app/Config/bootstrap.php`:
+Tell CakePHP to load our plugin, (add the following into `app/Config/bootstrap.php`):
 
 ```php
 CakePlugin::load('SmartyView');
 ```
 
 Finally, we have to tell CakePHP we want to use our SmartyView Plugin to render our view files.
-You can put this in your `AppController.php` or in individual controllers `PagesController.php`
+You can put this in your `AppController.php` or within individual controllers `PagesController.php`
 
 ```php
 /**

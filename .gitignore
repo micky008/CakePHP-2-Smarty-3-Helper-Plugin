@@ -8,12 +8,16 @@
 /build
 /dist
 /tags
+/lib
+/index.php
+/.htaccess
 
 # OS generated files #
 ######################
 .DS_Store
 .DS_Store?
 ._*
+.travis.yml
 .Spotlight-V100
 .Trashes
 Icon?

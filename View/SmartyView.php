@@ -24,15 +24,16 @@ class SmartySingleton {
 
 			$smarty->template_dir = APP . 'View' . DS;
 
+			$smarty->compile_dir = TMP . 'smarty' . DS . 'compile' . DS;
+			$smarty->cache_dir = TMP . 'smarty' . DS . 'cache' . DS;
+
 			$smarty->plugins_dir = array(
-				APP . 'View' . DS . 'Smarty' . DS . 'Plugins',
+				APP . 'Plugin' . DS . 'SmartyView' . DS . 'Lib' . DS . 'Plugins',
 				VENDORS . 'smarty' . DS . 'smarty' . DS . 'distribution' . DS . 'libs' . DS . 'plugins'
 			);
 
-			$smarty->config_dir = APP . 'View' . DS . 'Smarty' . DS . 'Configs' . DS;
-			$smarty->compile_dir = TMP . 'smarty' . DS . 'compile' . DS;
-			$smarty->cache_dir = TMP . 'smarty' . DS . 'cache' . DS;
-			$smarty->debug_tpl = APP . 'View' . DS . 'Smarty' . DS . 'debug.tpl';
+			$smarty->config_dir = APP . 'Plugin' . DS . 'SmartyView' . DS . 'Lib' . DS . 'Configs' . DS;
+			$smarty->debug_tpl = APP . DS . 'Plugin' . DS . 'SmartyView' . DS . 'View' . DS . 'debug.tpl';
 
 			// Other settings can be set here
 			// $smarty->default_modifiers = array('escape:"html"');

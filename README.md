@@ -1,12 +1,13 @@
 CakePHP 2 & Smarty 3
 ================
 
-A simple CakePHP 2.x Plugin to get up and running with Smarty 3.  
-I have tested this with CakePHP 2.4 and above, but should work easily with anything above 2.x.
+A simple CakePHP 2.x Plugin to get up and running with Smarty 3.
+
+I have tested this with CakePHP 2.4 and above, but should work with little modification with anything above 2.x.
 
 ## Installation
 
-### Smarty 3
+#### Smarty 3
 First we need to install Smarty 3, you can do this using composer.
 
 Add the following to your composer.json
@@ -26,23 +27,24 @@ Then in your root project directory, run:
 
     composer install
 
-This will install smarty into your `vendors/smarty/smarty` directory.
+This will install smarty into `vendors/smarty/smarty` directory.
 
-### CakePHP View Helper Plugin
+#### CakePHP View Helper Plugin
 
 Finally, we have to install the CakePHP View Helper.
 
-`cd` into `app/Plugin/` and run:
+`cd` into your `app/Plugin/` and run:
 
     git clone git@github.com:justanil/test-cakephp.git SmartyView
 
-Put the following in your controller (can be `AppController.php` or any single controller `PagesController`)
+Put the following in your controller (can be `AppController.php` to use Smarty application wide, or any other controller `PagesController.php`)
 
+	// Change the viewClass to SmartyView.Smarty
     public $viewClass = 'SmartyView.Smarty';
 
-Now for example, instead of cakephp looking for `home.ctp`, it will look for `home.tpl`
+Now, instead of CakePHP looking for `home.ctp`, it will look for `home.tpl`
 
-Set a var in a action (example `PagesController.php`):
+Basic Test: (example `PagesController.php`):
 
 ```php
 	// Remember to add this!
@@ -57,4 +59,5 @@ Now in your template (e.g:`app/View/Pages/home.tpl`)
 
 	{$fooVar}
 
+When you visit `/home`, you should see `Woo!, it works!`.
 

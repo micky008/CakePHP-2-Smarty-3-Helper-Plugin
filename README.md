@@ -37,27 +37,43 @@ Finally, we have to install the CakePHP View Helper.
 
     git clone git@github.com:justanil/test-cakephp.git SmartyView
 
-Put the following in your controller (can be `AppController.php` to use Smarty application wide, or any other controller `PagesController.php`)
+Finally, we have to tell CakePHP we want to use our SmartyView Plugin to render our view files.
+You can put this in your `AppController.php` or in individual controllers `PagesController.php`
 
-	// Change the viewClass to SmartyView.Smarty
+	/**
+	 * Change the default CakePHP viewClass to render through our Smarty Plugin
+	 * @var String
+	 */
     public $viewClass = 'SmartyView.Smarty';
 
-Now, instead of CakePHP looking for `home.ctp`, it will look for `home.tpl`
+---
 
-Basic Test: (example `PagesController.php`):
+#### Example
+
+Heres a basic example to get up and running:
+
+`app/Config/routes.php`
+
+`app/Controller/PagesController.php`:
 
 ```php
-	// Remember to add this!
+	/**
+	 * Change the default CakePHP viewClass to render through our Smarty Plugin
+	 * @var String
+	 */
 	$viewClass = "SmartyView.Smarty";
 
-	public function home() {
-		$this->set('fooVar', 'Woo!, it works!');
+	/**
+	 * Render our `home.tpl` view
+	 */
+	public function smarty() {
+		$this->set('smartyFooVar', 'Woo!, it works!');
 	}
 ```
 
-Now in your template (e.g:`app/View/Pages/home.tpl`)
+`app/View/Pages/smarty.tpl`
 
-	{$fooVar}
+	{$smartyFooVar}
 
-When you visit `/home`, you should see `Woo!, it works!`.
+When you visit `/smarty`, you should see `Woo!, it works!`.
 

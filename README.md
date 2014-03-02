@@ -2,10 +2,10 @@ CakePHP 2 & Smarty 3
 ================
 
 A simple CakePHP 2.x Plugin to get up and running with Smarty 3.
-
 I have tested this with CakePHP 2.4 and above, but should work with little modification with anything above 2.x.
+If a `.tpl` file does not exist, it will fallback and look for a `ctp` file to render.  
 
-If a `.tpl` file does not exist, it will fallback and look for a ctp file to render.
+
 
 ## Installation
 

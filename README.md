@@ -31,44 +31,56 @@ This will install smarty into `vendors/smarty/smarty` directory.
 
 #### CakePHP View Helper Plugin
 
-Finally, we have to install the CakePHP View Helper.
+Next, we have to install the CakePHP View Helper.
 
 `cd` into your `app/Plugin/` and run:
 
     git clone git@github.com:justanil/test-cakephp.git SmartyView
 
+Tell CakePHP to load our plugin (`app/Config/bootstrap.php`)
+
+```php
+CakePlugin::load('SmartyView');
+```
+
 Finally, we have to tell CakePHP we want to use our SmartyView Plugin to render our view files.
 You can put this in your `AppController.php` or in individual controllers `PagesController.php`
 
-	/**
-	 * Change the default CakePHP viewClass to render through our Smarty Plugin
-	 * @var String
-	 */
-    public $viewClass = 'SmartyView.Smarty';
-
+```php
+/**
+ * Change the default CakePHP viewClass to render through our Smarty Plugin
+ * @var String
+ */
+public $viewClass = 'SmartyView.Smarty';
+```
 ---
 
 #### Example
 
-Heres a basic example to get up and running:
+Add the following snippets in your cake application for a basic example:
 
-`app/Config/routes.php`
+
+`app/Config/routes.php`:
+
+```php
+Router::connect('/smarty', array('controller' => 'pages', 'action' => 'smarty'));
+```
 
 `app/Controller/PagesController.php`:
 
 ```php
-	/**
-	 * Change the default CakePHP viewClass to render through our Smarty Plugin
-	 * @var String
-	 */
-	$viewClass = "SmartyView.Smarty";
+/**
+ * Change the default CakePHP viewClass to render through our Smarty Plugin
+ * @var String
+ */
+$viewClass = "SmartyView.Smarty";
 
-	/**
-	 * Render our `home.tpl` view
-	 */
-	public function smarty() {
-		$this->set('smartyFooVar', 'Woo!, it works!');
-	}
+/**
+ * Render our `home.tpl` view
+ */
+public function smarty() {
+	$this->set('smartyFooVar', 'Woo!, it works!');
+}
 ```
 
 `app/View/Pages/smarty.tpl`

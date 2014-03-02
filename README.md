@@ -37,7 +37,7 @@ Next, we have to install the CakePHP View Helper.
 
     git clone git@github.com:justanil/test-cakephp.git SmartyView
 
-Tell CakePHP to load our plugin (`app/Config/bootstrap.php`)
+Tell CakePHP to load our plugin, add the following into `app/Config/bootstrap.php`:
 
 ```php
 CakePlugin::load('SmartyView');
@@ -51,7 +51,7 @@ You can put this in your `AppController.php` or in individual controllers `Pages
  * Change the default CakePHP viewClass to render through our Smarty Plugin
  * @var String
  */
-public $viewClass = 'SmartyView.Smarty';
+	public $viewClass = 'SmartyView.Smarty';
 ```
 ---
 
@@ -60,15 +60,13 @@ public $viewClass = 'SmartyView.Smarty';
 Add the following snippets in your cake application for a basic example:
 
 
-`app/Config/routes.php`:
-
 ```php
+// `app/Config/routes.php`
 Router::connect('/smarty', array('controller' => 'pages', 'action' => 'smarty'));
 ```
 
-`app/Controller/PagesController.php`:
-
 ```php
+// `app/Controller/PagesController.php`
 /**
  * Change the default CakePHP viewClass to render through our Smarty Plugin
  * @var String
@@ -83,9 +81,10 @@ public function smarty() {
 }
 ```
 
-`app/View/Pages/smarty.tpl`
-
-	{$smartyFooVar}
+```smarty
+{*`app/View/Pages/smarty.tpl`*}
+{$smartyFooVar}
+```
 
 When you visit `/smarty`, you should see `Woo!, it works!`.
 

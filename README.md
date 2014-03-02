@@ -26,9 +26,19 @@ Add the following to your `composer.json`
 
 Then in your root project directory, run:
 
-    composer install
+    $ curl -s "http://getcomposer.org/installer" | php
+	$ php composer.phar install
 
 This will install smarty into `vendors/smarty/smarty` directory.
+
+You will need to create your cache and compile directories:
+
+```bash
+$ mkdir -p app/tmp/smarty/cache/
+$ mkdir -p app/tmp/smarty/compile/
+$ chmod 0777 app/tmp/smarty/cache/
+$ chmod 0777 app/tmp/smarty/compile/
+```
 
 #### CakePHP View Helper Plugin
 

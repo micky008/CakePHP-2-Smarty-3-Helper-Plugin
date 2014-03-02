@@ -1,2 +1,2 @@
-cakephp2-smarty3
+test cakephp
 ================

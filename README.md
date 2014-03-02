@@ -5,6 +5,8 @@ A simple CakePHP 2.x Plugin to get up and running with Smarty 3.
 
 I have tested this with CakePHP 2.4 and above, but should work with little modification with anything above 2.x.
 
+If a `.tpl` file does not exist, it will fallback and look for a ctp file to render.
+
 ## Installation
 
 #### Smarty 3
@@ -40,6 +42,7 @@ Tell CakePHP to load our plugin, (add the following into `app/Config/bootstrap.p
 
 ```php
 CakePlugin::load('SmartyView');
+#CakePlugin::loadAll(); // or Load all plugins
 ```
 
 Finally, we have to tell CakePHP we want to use our SmartyView Plugin to render our view files.
@@ -87,6 +90,7 @@ public function smarty() {
 
 When you visit `/smarty`, you should see `Woo!, it works!`.
 
+---
 
 ### License
 

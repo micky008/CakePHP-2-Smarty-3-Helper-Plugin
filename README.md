@@ -33,7 +33,7 @@ This will install smarty into `vendors/smarty/smarty` directory.
 
 You will need to create and give permissions to your cache and compile directories:
 
-```bash
+```
 $ mkdir -p app/tmp/smarty/cache/
 $ mkdir -p app/tmp/smarty/compile/
 $ chmod 0777 app/tmp/smarty/cache/
@@ -46,13 +46,15 @@ Next, we have to install the CakePHP View Helper.
 
 `cd` into your `app/Plugin/` and run:
 
-    git clone git@github.com:justanil/test-cakephp.git SmartyView
+```
+$ git clone git@github.com:justanil/test-cakephp.git SmartyView
+```
 
 Tell CakePHP to load our plugin, (add the following into `app/Config/bootstrap.php`):
 
 ```php
 CakePlugin::load('SmartyView');
-#CakePlugin::loadAll(); // or Load all plugins
+#CakePlugin::loadAll(); // or load all plugins
 ```
 
 Finally, we have to tell CakePHP we want to use our SmartyView Plugin to render our view files.
@@ -118,6 +120,8 @@ You can access all loaded CakePHP helpers in template files like so:
 {$text->truncate('The killer crept forward and tripped on the rug.', 22,
     ['ellipsis' => '...', 'exact' => false ]
 )}
+
+{* CakePHP Blocks also work *}
 ```
 
 ---

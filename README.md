@@ -15,9 +15,6 @@ Add the following to your `composer.json`
 
 ```json
 {
-	"config": {
-		"vendor-dir" : "vendors"
-	},
 	"require": {
 		"smarty/smarty": "3.1.*"
 	}

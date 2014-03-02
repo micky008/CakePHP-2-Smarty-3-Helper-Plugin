@@ -31,7 +31,7 @@ Then in your root project directory, run:
 
 This will install smarty into `vendors/smarty/smarty` directory.
 
-You will need to create your cache and compile directories:
+You will need to create and give permissions to your cache and compile directories:
 
 ```bash
 $ mkdir -p app/tmp/smarty/cache/

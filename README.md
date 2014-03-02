@@ -57,7 +57,7 @@ You can put this in your `AppController.php` or within individual controllers `P
 ```
 ---
 
-#### Example
+#### Basic Example
 
 Add the following snippets in your cake application for a basic example:
 
@@ -88,7 +88,27 @@ public function smarty() {
 {$smartyFooVar}
 ```
 
-When you visit `/smarty`, you should see `Woo!, it works!`.
+When you visit `/smarty`, you should see `Woo!, it works!`
+
+---
+
+#### Further Examples
+
+You can access all loaded CakePHP helpers in template files like so:
+
+```smarty
+{* Create and end form tags *}
+{$form->create()}
+{$form->end()}
+
+{* import an element from app/View/Elements/filename.tpl *}
+{$this->element('file_in_elements_directory')}
+
+{* ouputs `The killer crept...` *}
+{$text->truncate('The killer crept forward and tripped on the rug.', 22,
+    ['ellipsis' => '...', 'exact' => false ]
+)}
+```
 
 ---
 

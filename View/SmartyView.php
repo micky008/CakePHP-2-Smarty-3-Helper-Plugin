@@ -8,6 +8,18 @@
  *
  * @link http://www.smarty.net/docs/en/installing.smarty.extended.tpl
  */
+namespace App\View;
+ 
+use Cake\Network\Request;
+use Cake\Network\Response;
+use Cake\Event\EventManager;
+use Cake\View\View;
+use Cake\Core\App;
+use Cake\Core\Configure;
+use Smarty;
+
+define("VENDORS", TMP.'../vendor');
+
 class SmartySingleton {
 
 	static private $instance = null;
@@ -18,21 +30,20 @@ class SmartySingleton {
 
 	static public function instance() {
 		if (is_null(self::$instance)) {
+		
+			$smarty = new Smarty();
 
-			App::import('Vendor', 'Smarty', array('file' => 'autoload.php'));
-			$smarty = new Smarty;
-
-			$smarty->template_dir = APP . 'View' . DS;
+			$smarty->template_dir = APP . 'Template' . DS;
 
 			$smarty->compile_dir = TMP . 'smarty' . DS . 'compile' . DS;
 			$smarty->cache_dir = TMP . 'smarty' . DS . 'cache' . DS;
 
 			$smarty->plugins_dir = array(
 				APP . 'Plugin' . DS . 'SmartyView' . DS . 'Lib' . DS . 'Plugins',
-				VENDORS . 'smarty' . DS . 'smarty' . DS . 'distribution' . DS . 'libs' . DS . 'plugins'
+				VENDORS . DS . 'smarty/smarty' . DS . 'libs' . DS . 'plugins'
 			);
 
-			$smarty->config_dir = APP . 'Plugin' . DS . 'SmartyView' . DS . 'Lib' . DS . 'Configs' . DS;
+			$smarty->config_dir = TMP . 'smarty' . DS . 'config' . DS;
 			$smarty->debug_tpl = APP . DS . 'Plugin' . DS . 'SmartyView' . DS . 'View' . DS . 'debug.tpl';
 
 			// Other settings can be set here
@@ -53,17 +64,14 @@ class SmartySingleton {
 		}
 		return self::$instance;
 	}
-
 }
-
 class SmartyView extends View {
 
-	public function __construct(\Controller $controller = null) {
-		parent::__construct($controller);
-
+	public function __construct(Request $request = null, Response $response = null,
+		EventManager $eventManager = null, array $viewOptions = []) {
+		parent::__construct($request,$response,$eventManager,$viewOptions);
 		$this->Smarty = SmartySingleton::instance();
-		$this->ext= '.tpl';
-		$this->viewVars['params'] = $this->params;
+		$this->_ext= '.tpl';
 	}
 
 /**
@@ -74,25 +82,19 @@ class SmartyView extends View {
  * @param array $data Data to include in rendered view. If empty the current View::$viewVars will be used.
  * @return string Rendered output
  */
-	protected function _render($viewFile, $data = array()) {
-		$viewFileName = $this->_getViewFileName($viewFile);
-		$viewInfo = pathinfo($viewFileName);
-
-		if ($viewInfo['extension'] === 'ctp') {
+protected function _render($viewFile, $data = array()) {
+		
+		if (stristr($viewFile,'.ctp') === 'ctp') {
 			return parent::_render($viewFile, $data);
 		}
-
-		$this->_current = $viewFile;
-		$initialBlocks = count($this->Blocks->unclosed());
-
-		$eventManager = $this->getEventManager();
-		$beforeEvent = new CakeEvent('View.beforeRenderFile', $this, array($viewFile));
-
-		$eventManager->dispatch($beforeEvent);
-
+		
 		if (empty($data)) {
 			$data = $this->viewVars;
 		}
+		$this->_current = $viewFile;
+		$initialBlocks = count($this->Blocks->unclosed());
+
+		$this->dispatchEvent('View.beforeRenderFile', [$viewFile]);
 
 		foreach ($data as $key => $value) {
 			if (!is_object($key)) {
@@ -100,23 +102,22 @@ class SmartyView extends View {
 			}
 		}
 
-		$helpers = HelperCollection::normalizeObjectArray($this->helpers);
+		$helpers = $this->normalizeObjectArray($this->helpers);
 
 		foreach ($helpers as $name => $properties) {
 			list($plugin, $class) = pluginSplit($properties['class']);
 			$this->{$class} = $this->Helpers->load($properties['class'], $properties['settings']);
 			$this->Smarty->assignByRef(strtolower($name), $this->{$class});
 		}
-
+		
+		
 		$this->Smarty->assignByRef('this', $this);
-
 		$content = $this->Smarty->fetch($viewFile);
 
-		$afterEvent = new CakeEvent('View.afterRenderFile', $this, array($viewFile, $content));
-
-		$afterEvent->modParams = 1;
-		$eventManager->dispatch($afterEvent);
-		$content = $afterEvent->data[1];
+		$afterEvent = $this->dispatchEvent('View.afterRenderFile', [$viewFile, $content]);
+		if (isset($afterEvent->result)) {
+			$content = $afterEvent->result;
+		}
 
 		if (isset($this->_parents[$viewFile])) {
 			$this->_stack[] = $this->fetch('content');
@@ -129,9 +130,28 @@ class SmartyView extends View {
 		$remainingBlocks = count($this->Blocks->unclosed());
 
 		if ($initialBlocks !== $remainingBlocks) {
-			throw new CakeException(__d('cake_dev', 'The "%s" block was left open. Blocks are not allowed to cross files.', $this->Blocks->active()));
+			throw new LogicException(sprintf(
+				'The "%s" block was left open. Blocks are not allowed to cross files.',
+				$this->Blocks->active()
+			));
 		}
-
 		return $content;
 	}
+	
+	private function normalizeObjectArray($objects) {
+		$normal = array();
+		foreach ($objects as $i => $objectName) {
+			$options = array();
+			if (!is_int($i)) {
+				$options = (array)$objectName;
+				$objectName = $i;
+			}
+			list(, $name) = pluginSplit($objectName);
+			$normal[$name] = array('class' => $objectName, 'settings' => $options);
+		}
+		return $normal;
+	}
+	
+	
+	
 }

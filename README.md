@@ -1,9 +1,9 @@
-CakePHP 2 & Smarty 3
+CakePHP 3-beta-3 & Smarty 3
 ================
 
-A simple CakePHP 2.x Plugin to get up and running with Smarty 3.
-I have tested this with CakePHP 2.4 and above, but should work with little modification with anything above 2.x.
-If a `.tpl` file does not exist, it will fallback and look for a `ctp` file to render.  
+A simple CakePHP 3.0-beta3 Plugin to get up and running with Smarty 3.
+I have tested this with CakePHP 3-beta3.
+Is a crap tricks but it's works.
 
 
 
@@ -34,28 +34,18 @@ This will install smarty into `vendors/smarty/smarty` directory.
 You will need to create and give permissions to your cache and compile directories:
 
 ```
-$ mkdir -p app/tmp/smarty/cache/
-$ mkdir -p app/tmp/smarty/compile/
-$ chmod 0777 app/tmp/smarty/cache/
-$ chmod 0777 app/tmp/smarty/compile/
+$ mkdir -p myCakeProject/tmp/smarty/
+$ mkdir -p myCakeProject/tmp/smarty/cache
+$ mkdir -p myCakeProject/tmp/smarty/compile
+$ mkdir -p myCakeProject/tmp/smarty/config
+$ chmod -R 0777 myCakeProject/tmp/smarty/
 ```
 
 #### CakePHP View Helper Plugin
 
 Next, we have to install the CakePHP View Helper.
 
-`cd` into your `app/Plugin/` and run:
-
-```
-$ git clone git@github.com:justanil/test-cakephp.git SmartyView
-```
-
-Tell CakePHP to load our plugin, (add the following into `app/Config/bootstrap.php`):
-
-```php
-CakePlugin::load('SmartyView');
-#CakePlugin::loadAll(); // or load all plugins
-```
+go into your `myCakeProject/src/View` and copy SmartyView.php in this folder.
 
 Finally, we have to tell CakePHP we want to use our SmartyView Plugin to render our view files.
 You can put this in your `AppController.php` or within individual controllers `PagesController.php`
@@ -65,9 +55,16 @@ You can put this in your `AppController.php` or within individual controllers `P
  * Change the default CakePHP viewClass to render through our Smarty Plugin
  * @var String
  */
-	public $viewClass = 'SmartyView.Smarty';
+	public $viewClass = 'Smarty';
 ```
 ---
+##### Other tricks
+
+Go to `myCakeProject/src/Template/Layout` and copy the default.ctp to default.tpl and rename default.ctp to default.ct_ [to see if it's work]. 
+
+Open default.tpl and change all `<?= ` to `{` and ` ?>` to `}`
+
+It's done.
 
 #### Basic Example
 
@@ -75,17 +72,12 @@ Add the following snippets in your cake application for a basic example:
 
 
 ```php
-// `app/Config/routes.php`
-Router::connect('/smarty', array('controller' => 'pages', 'action' => 'smarty'));
-```
-
-```php
-// `app/Controller/PagesController.php`
+// `src/Controller/PagesController.php`
 /**
  * Change the default CakePHP viewClass to render through our Smarty Plugin
  * @var String
  */
-$viewClass = "SmartyView.Smarty";
+$viewClass = "Smarty";
 
 /**
  * Render our `home.tpl` view
@@ -96,7 +88,7 @@ public function smarty() {
 ```
 
 ```smarty
-{*`app/View/Pages/smarty.tpl`*}
+{*`src/Template/Pages/home.tpl`*}
 {$smartyFooVar}
 ```
 

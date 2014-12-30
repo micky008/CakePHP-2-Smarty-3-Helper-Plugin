@@ -5,6 +5,8 @@ A simple CakePHP 3.0-beta3 Plugin to get up and running with Smarty 3.
 I have tested this with CakePHP 3-beta3.
 Is a crap tricks but it's works.
 
+Forked from https://github.com/Lakhman/CakePHP-2-Smarty-3-Helper-Plugin 
+thanks Lakhman :)
 
 
 ## Installation
@@ -65,6 +67,8 @@ Go to `myCakeProject/src/Template/Layout` and copy the default.ctp to default.tp
 Open default.tpl and change all `<?= ` to `{` and ` ?>` to `}`
 
 It's done.
+
+After the test, rename all file .ctp to .tpl and it's works.
 
 #### Basic Example
 
